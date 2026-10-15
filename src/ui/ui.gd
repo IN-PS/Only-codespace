@@ -147,6 +147,13 @@ static func color_button(c: Color, alpha := false) -> ColorPickerButton:
 	b.custom_minimum_size = Vector2(56, PSTheme.TOUCH)
 	b.focus_mode = Control.FOCUS_NONE
 	b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	# Seletor enxuto para o celular: sem amostras, modos de cor nem conta-gotas.
+	var picker := b.get_picker()
+	picker.presets_visible = false
+	picker.color_modes_visible = false
+	picker.sampler_visible = false
+	picker.can_add_swatches = false
+	picker.edit_intensity = false
 	return b
 
 

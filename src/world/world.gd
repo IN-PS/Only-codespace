@@ -849,10 +849,10 @@ func _collect_rids(node: Node, out: Array[RID]) -> void:
 # --------------------------------------------------------------------------
 
 const SKY_PRESETS := {
-	"day": {"top": Color(0.22, 0.45, 0.85), "horizon": Color(0.66, 0.78, 0.92), "ground": Color(0.25, 0.23, 0.21), "sun": Color(1.0, 0.96, 0.9), "sun_mult": 1.0, "amb_mult": 1.0},
-	"sunset": {"top": Color(0.22, 0.24, 0.5), "horizon": Color(0.98, 0.58, 0.32), "ground": Color(0.22, 0.17, 0.16), "sun": Color(1.0, 0.7, 0.45), "sun_mult": 0.8, "amb_mult": 0.8},
-	"night": {"top": Color(0.01, 0.02, 0.06), "horizon": Color(0.07, 0.09, 0.17), "ground": Color(0.03, 0.03, 0.04), "sun": Color(0.6, 0.7, 1.0), "sun_mult": 0.15, "amb_mult": 0.35},
-	"overcast": {"top": Color(0.52, 0.55, 0.6), "horizon": Color(0.72, 0.74, 0.77), "ground": Color(0.3, 0.3, 0.3), "sun": Color(0.9, 0.92, 0.95), "sun_mult": 0.35, "amb_mult": 1.2},
+	"day": {"top": Color(0.22, 0.45, 0.85), "horizon": Color(0.66, 0.78, 0.92), "ground": Color(0.25, 0.23, 0.21), "sun": Color(1.0, 0.96, 0.9), "sun_mult": 1.0, "amb": Color(0.62, 0.66, 0.72), "amb_mult": 1.0},
+	"sunset": {"top": Color(0.22, 0.24, 0.5), "horizon": Color(0.98, 0.58, 0.32), "ground": Color(0.22, 0.17, 0.16), "sun": Color(1.0, 0.7, 0.45), "sun_mult": 0.9, "amb": Color(0.62, 0.5, 0.5), "amb_mult": 0.9},
+	"night": {"top": Color(0.01, 0.02, 0.06), "horizon": Color(0.07, 0.09, 0.17), "ground": Color(0.03, 0.03, 0.04), "sun": Color(0.6, 0.7, 1.0), "sun_mult": 0.18, "amb": Color(0.3, 0.36, 0.55), "amb_mult": 0.5},
+	"overcast": {"top": Color(0.52, 0.55, 0.6), "horizon": Color(0.72, 0.74, 0.77), "ground": Color(0.3, 0.3, 0.3), "sun": Color(0.9, 0.92, 0.95), "sun_mult": 0.35, "amb": Color(0.72, 0.74, 0.77), "amb_mult": 1.3},
 }
 
 
@@ -871,10 +871,13 @@ func apply_environment(e: Variant) -> void:
 	var env := Environment.new()
 	env.background_mode = Environment.BG_SKY
 	env.sky = sky
-	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
+	# Luz ambiente de cor neutra (a do céu deixava tudo azulado demais).
+	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	env.ambient_light_color = preset["amb"]
 	env.ambient_light_energy = float(env_data["ambient"]) * float(preset["amb_mult"])
 	env.reflected_light_source = Environment.REFLECTION_SOURCE_SKY
 	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+	env.tonemap_white = 6.0
 	env.fog_enabled = bool(env_data["fog"])
 	env.fog_density = float(env_data["fog_density"])
 	env.fog_light_color = preset["horizon"]
