@@ -66,7 +66,7 @@ var _keyboard_h := 0.0
 
 
 func _init() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
@@ -161,6 +161,16 @@ func _build_scene() -> void:
 	_autosave_timer.autostart = true
 	_autosave_timer.timeout.connect(autosave_now)
 	add_child(_autosave_timer)
+	App.settings_changed.connect(_on_settings_changed)
+
+
+func _on_settings_changed() -> void:
+	var sh := bool(App.get_setting("shadows", true))
+	if world and world.shadows_enabled != sh:
+		world.set_shadows(sh)
+	if _autosave_timer:
+		_autosave_timer.wait_time = maxf(10.0, float(App.get_setting("autosave_seconds", 45)))
+	_apply_snap_settings()
 
 
 func close_project() -> void:

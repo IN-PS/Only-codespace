@@ -883,8 +883,11 @@ func apply_environment(e: Variant) -> void:
 	sun.light_color = preset["sun"]
 	sun.light_energy = float(env_data["sun_energy"]) * float(preset["sun_mult"])
 	sun.shadow_enabled = shadows_enabled
-	sun.directional_shadow_max_distance = 80.0
+	sun.directional_shadow_max_distance = 60.0
 	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS
+	sun.shadow_bias = 0.06
+	sun.shadow_normal_bias = 2.0
+	sun.shadow_blur = 1.5
 
 
 func set_shadows(on: bool) -> void:

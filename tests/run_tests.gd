@@ -13,7 +13,7 @@ func _ready() -> void:
 	get_tree().root.size = Vector2i(1280, 720)
 	App.overlay = Control.new()
 	App.overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	App.overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	App.overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(App.overlay)
 	await get_tree().process_frame
 	var total := 0

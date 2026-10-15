@@ -39,7 +39,7 @@ var _mouse_mode := 0         # 0 nada, 1 girar (direito), 2 arrastar (meio)
 
 
 func _init() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	focus_mode = Control.FOCUS_NONE
 

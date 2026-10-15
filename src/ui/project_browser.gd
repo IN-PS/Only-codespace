@@ -10,13 +10,13 @@ var _margin: MarginContainer
 
 
 func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var bg := ColorRect.new()
 	bg.color = PSTheme.BG
-	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(bg)
 	_margin = MarginContainer.new()
-	_margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(_margin)
 	_content = PSUI.vbox(12)
 	_content.size_flags_horizontal = Control.SIZE_EXPAND_FILL

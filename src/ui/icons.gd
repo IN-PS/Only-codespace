@@ -79,6 +79,8 @@ const PATHS := {
 	"pyramid": "<path d='M12 3l9 16H3z'/><path d='M12 3l2 16'/>",
 	"box": "<path d='M12 2l9 5v10l-9 5-9-5V7z'/><path d='M3 7l9 5 9-5M12 12v10'/>",
 	"grabber": "<circle cx='12' cy='12' r='9' fill='#e6e8ee' stroke='#3d7eff' stroke-width='3'/>",
+	"check_off": "<rect x='3.5' y='3.5' width='17' height='17' rx='4' stroke='#9aa1b2'/>",
+	"check_on": "<rect x='3' y='3' width='18' height='18' rx='4' fill='#3d7eff' stroke='#3d7eff'/><path d='M7 12.5l3.2 3.2L17 9' stroke='#ffffff' stroke-width='2.4'/>",
 	"world": "<circle cx='12' cy='12' r='9'/><path d='M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18'/>",
 }
 

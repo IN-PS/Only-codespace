@@ -16,7 +16,7 @@ func _ready() -> void:
 	RenderingServer.set_default_clear_color(PSTheme.BG)
 	ui_root = Control.new()
 	ui_root.name = "UI"
-	ui_root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	ui_root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	ui_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	ui_root.theme = theme
 	add_child(ui_root)
@@ -25,7 +25,7 @@ func _ready() -> void:
 	add_child(overlay_layer)
 	var overlay := Control.new()
 	overlay.name = "Overlay"
-	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	overlay.theme = theme
 	overlay_layer.add_child(overlay)

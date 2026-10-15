@@ -220,12 +220,12 @@ void vertex() {
 }
 void fragment() {
 	float ripple = sin(world_pos.x * 2.0 + TIME * 1.7) * cos(world_pos.z * 2.3 - TIME * 1.1);
-	float fres = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), 3.0);
-	ALBEDO = water_color.rgb + vec3(ripple * 0.03) + vec3(fres * 0.25);
-	ALPHA = clamp(water_color.a + fres * 0.2, 0.0, 1.0);
-	ROUGHNESS = 0.08;
+	float fres = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), 4.0);
+	ALBEDO = water_color.rgb * (0.85 + ripple * 0.05) + vec3(fres * 0.08);
+	ALPHA = clamp(water_color.a + fres * 0.15, 0.0, 1.0);
+	ROUGHNESS = 0.15;
 	METALLIC = 0.0;
-	SPECULAR = 0.6;
+	SPECULAR = 0.4;
 }
 """
 	var m := ShaderMaterial.new()

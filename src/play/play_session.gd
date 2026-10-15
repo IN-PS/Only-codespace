@@ -33,7 +33,7 @@ var _default_gravity := 9.8
 
 
 func _init() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
@@ -169,7 +169,7 @@ func handle_back() -> void:
 
 func _build_hud() -> void:
 	_hud = Control.new()
-	_hud.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_hud.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_hud.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_hud)
 
@@ -258,16 +258,16 @@ func _build_hud() -> void:
 	_hud.add_child(_message)
 
 	_pause_layer = Control.new()
-	_pause_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_pause_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_pause_layer.visible = false
 	_pause_layer.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(_pause_layer)
 	var dim := ColorRect.new()
 	dim.color = Color(0, 0, 0, 0.55)
-	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_pause_layer.add_child(dim)
 	var center := CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_pause_layer.add_child(center)
 	var box := PSUI.vbox(10)
 	box.custom_minimum_size.x = 260

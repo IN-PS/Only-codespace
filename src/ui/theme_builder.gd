@@ -179,6 +179,11 @@ static func get_theme() -> Theme:
 	t.set_color("font_color", "TooltipLabel", TEXT)
 
 	# Caixas de seleção e controles deslizantes
+	t.set_icon("unchecked", "CheckBox", PSIcons.get_icon("check_off", 22.0))
+	t.set_icon("checked", "CheckBox", PSIcons.get_icon("check_on", 22.0))
+	t.set_icon("unchecked_disabled", "CheckBox", PSIcons.get_icon("check_off", 22.0, "#4a5060"))
+	t.set_icon("checked_disabled", "CheckBox", PSIcons.get_icon("check_on", 22.0))
+	t.set_constant("h_separation", "CheckBox", 10)
 	for cls in ["CheckBox", "CheckButton"]:
 		t.set_stylebox("normal", cls, empty(4))
 		t.set_stylebox("hover", cls, empty(4))

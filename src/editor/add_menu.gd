@@ -9,7 +9,7 @@ static func open(editor: PSEditor) -> void:
 	tabs.add_tab("Formas")
 	tabs.add_tab("Especiais")
 	tabs.add_tab("Biblioteca")
-	tabs.add_tab("Meus modelos")
+	tabs.add_tab("Modelos")
 	tabs.clip_tabs = false
 	tabs.focus_mode = Control.FOCUS_NONE
 	var tab_scroll := ScrollContainer.new()

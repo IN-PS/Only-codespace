@@ -126,6 +126,9 @@ func _on_root_resized() -> void:
 
 func load_settings() -> void:
 	settings = DEFAULT_SETTINGS.duplicate(true)
+	if is_android():
+		# Padrão mais leve para celulares: resolução 3D um pouco menor.
+		settings["render_scale"] = 0.8
 	if not FileAccess.file_exists(SETTINGS_PATH):
 		return
 	var text := FileAccess.get_file_as_string(SETTINGS_PATH)
