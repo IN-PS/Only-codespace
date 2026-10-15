@@ -1,0 +1,109 @@
+name: Testes e APK Android
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  GODOT_VERSION: "4.7.2"
+
+jobs:
+  testes:
+    name: Testes automatizados
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache do Godot
+        id: cache-godot
+        uses: actions/cache@v4
+        with:
+          path: ~/godot
+          key: godot-${{ env.GODOT_VERSION }}-linux
+
+      - name: Baixar Godot ${{ env.GODOT_VERSION }}
+        if: steps.cache-godot.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/godot
+          curl -fsSL -o /tmp/godot.zip "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          unzip -q /tmp/godot.zip -d /tmp/godot
+          mv "/tmp/godot/Godot_v${GODOT_VERSION}-stable_linux.x86_64" ~/godot/godot
+          chmod +x ~/godot/godot
+
+      - name: Importar projeto
+        run: ~/godot/godot --headless --path . --import || true
+
+      - name: Verificar scripts
+        run: GODOT=~/godot/godot tools/check_scripts.sh
+
+      - name: Rodar testes
+        run: ~/godot/godot --headless --path . res://tests/run_tests.tscn
+
+  apk:
+    name: APK Android (debug)
+    needs: testes
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Cache do Godot e templates
+        id: cache-templates
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/godot
+            ~/.local/share/godot/export_templates
+          key: godot-${{ env.GODOT_VERSION }}-linux-android-templates
+
+      - name: Baixar Godot e templates de exportação
+        if: steps.cache-templates.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/godot
+          curl -fsSL -o /tmp/godot.zip "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          unzip -q /tmp/godot.zip -d /tmp/godot
+          mv "/tmp/godot/Godot_v${GODOT_VERSION}-stable_linux.x86_64" ~/godot/godot
+          chmod +x ~/godot/godot
+          curl -fsSL -o /tmp/templates.tpz "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_export_templates.tpz"
+          DEST=~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+          mkdir -p "$DEST"
+          # Só os templates do Android são necessários.
+          unzip -j -o /tmp/templates.tpz templates/android_debug.apk templates/android_release.apk templates/version.txt -d "$DEST"
+          rm /tmp/templates.tpz
+          ls -la "$DEST"
+
+      - name: Gerar keystore de depuração
+        run: |
+          keytool -genkeypair -v -keystore "$RUNNER_TEMP/debug.keystore" -storepass android \
+            -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=Android Debug,O=Android,C=US"
+
+      - name: Exportar APK
+        env:
+          GODOT_ANDROID_KEYSTORE_DEBUG_USER: androiddebugkey
+          GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD: android
+        run: |
+          export GODOT_ANDROID_KEYSTORE_DEBUG_PATH="$RUNNER_TEMP/debug.keystore"
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          ls "$ANDROID_HOME/build-tools" || true
+          mkdir -p build
+          ~/godot/godot --headless --path . --import || true
+          ~/godot/godot --headless --path . --export-debug "Android" build/PocketStudio3D-debug.apk
+          ls -la build
+          test -s build/PocketStudio3D-debug.apk
+
+      - name: Publicar APK como artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: PocketStudio3D-${{ github.sha }}-debug-apk
+          path: build/PocketStudio3D-debug.apk
+          if-no-files-found: error
+          retention-days: 30
