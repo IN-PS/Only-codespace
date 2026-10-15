@@ -28,6 +28,11 @@ func _ready() -> void:
 	var started := Time.get_ticks_msec()
 	for f in files:
 		var script: GDScript = load("res://tests/" + f)
+		if script == null or not script.can_instantiate():
+			total += 1
+			failed += 1
+			printerr("[FALHA] %s não compila" % f)
+			continue
 		var suite: PSTestCase = script.new()
 		suite.runner = self
 		await suite.before_all()
