@@ -131,6 +131,13 @@ func place_at_spawn() -> void:
 	respawned.emit()
 
 
+func _process(_delta: float) -> void:
+	# Em terceira pessoa, se a câmera encostar no personagem (parede ou morro
+	# atrás), esconde o avatar para não tampar a visão.
+	if camera_mode == "third":
+		_avatar.visible = _arm.get_hit_length() > 1.3
+
+
 func _physics_process(delta: float) -> void:
 	var input := move_input
 	var kb := Input.get_vector("ps_left", "ps_right", "ps_forward", "ps_back")

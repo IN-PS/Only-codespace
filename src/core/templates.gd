@@ -75,7 +75,7 @@ static func create(key: String, project_name: String) -> Dictionary:
 					d["script"] = "s_chegada"
 				_add(objects, d)
 			# Cair do percurso leva de volta ao início.
-			_box(objects, "Zona de queda", Vector3(0, -8, -20), Vector3(80, 1, 80), Color(0.9, 0.2, 0.2, 0.25), {"script": "s_armadilha", "visible": false, "locked": true})
+			_box(objects, "Zona de queda", Vector3(0, -12, -18), Vector3(40, 1, 56), Color(0.5, 0.15, 0.15, 0.12), {"script": "s_armadilha", "visible": false, "locked": true})
 			objects[-1]["phys"]["mode"] = "none"
 			data["scripts"] = [
 				{"id": coin_script, "name": "Moeda", "code": PSScriptTemplates.get_code("coin"), "enabled": true, "global": false},

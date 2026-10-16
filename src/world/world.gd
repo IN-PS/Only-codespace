@@ -888,8 +888,9 @@ func apply_environment(e: Variant) -> void:
 	sun.shadow_enabled = shadows_enabled
 	sun.directional_shadow_max_distance = 60.0
 	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS
-	sun.shadow_bias = 0.06
-	sun.shadow_normal_bias = 2.0
+	# Viés alto elimina os "dentes" de sombra com mapas de baixa resolução (celular).
+	sun.shadow_bias = 0.1
+	sun.shadow_normal_bias = 4.0
 	sun.shadow_blur = 1.5
 
 

@@ -10,7 +10,7 @@ const HELP := """[b]Gestos na vista 3D[/b]
 • Toque longo em um objeto: menu rápido (duplicar, excluir, travar…).
 • Ferramenta Mover: arraste o próprio objeto para deslizá-lo sobre as superfícies, ou use as setas coloridas para mover em um eixo. A bolinha branca move no plano do chão.
 • Girar: arraste um dos anéis. Escalar: arraste os cubinhos (ou o cubo central para escala uniforme).
-• O ímã liga/desliga o encaixe na grade.
+• O botão de câmera (canto da barra de ferramentas) tem as vistas prontas, o foco e o liga/desliga do encaixe na grade.
 
 [b]Painéis[/b]
 Hierarquia, Propriedades, Terreno, Assets, Scripts, Mundo e Console ficam nas abas. Toque na aba ativa para recolher o painel.

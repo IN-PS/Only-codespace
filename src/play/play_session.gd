@@ -228,14 +228,23 @@ func _build_hud() -> void:
 			_cam_btn.icon = PSIcons.get_icon("person" if m == "third" else "eye")
 			show_message("Câmera: " + ("terceira pessoa" if m == "third" else "primeira pessoa"), 1.2))
 	top.add_child(_cam_btn)
+	top.add_child(PSUI.spacer())
+	# Texto definido pelos scripts (placar etc.): numa linha própria abaixo dos botões.
 	_hud_text = PSUI.label("", "")
-	_hud_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_hud_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_hud_text.add_theme_font_size_override("font_size", 18)
 	_hud_text.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.8))
 	_hud_text.add_theme_constant_override("shadow_offset_y", 2)
+	_hud_text.add_theme_constant_override("shadow_offset_x", 1)
 	_hud_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	top.add_child(_hud_text)
+	_hud_text.clip_text = true
+	_hud_text.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_hud_text.anchor_right = 1.0
+	_hud_text.offset_left = 12
+	_hud_text.offset_right = -12
+	_hud_text.offset_top = 16 + _safe_top() + PSTheme.TOUCH
+	_hud_text.offset_bottom = 16 + _safe_top() + PSTheme.TOUCH + 30
+	_hud.add_child(_hud_text)
 	_error_btn = PSUI.button("0", "error", "Erros do teste", "DangerButton")
 	_error_btn.visible = false
 	_error_btn.pressed.connect(_show_errors)

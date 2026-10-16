@@ -80,18 +80,29 @@ jobs:
           rm /tmp/templates.tpz
           ls -la "$DEST"
 
-      - name: Gerar keystore de depuração
+      # A keystore de depuração é reaproveitada entre execuções (cache), para que
+      # um APK novo possa ser instalado por cima do anterior sem desinstalar.
+      - name: Cache da keystore de depuração
+        uses: actions/cache@v4
+        with:
+          path: ~/.pocketstudio-keystore
+          key: pocketstudio-debug-keystore-v1
+
+      - name: Gerar keystore de depuração (se não existir)
         run: |
-          keytool -genkeypair -v -keystore "$RUNNER_TEMP/debug.keystore" -storepass android \
-            -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 \
-            -dname "CN=Android Debug,O=Android,C=US"
+          mkdir -p ~/.pocketstudio-keystore
+          if [ ! -f ~/.pocketstudio-keystore/debug.keystore ]; then
+            keytool -genkeypair -v -keystore ~/.pocketstudio-keystore/debug.keystore -storepass android \
+              -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 \
+              -dname "CN=Android Debug,O=Android,C=US"
+          fi
 
       - name: Exportar APK
         env:
           GODOT_ANDROID_KEYSTORE_DEBUG_USER: androiddebugkey
           GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD: android
         run: |
-          export GODOT_ANDROID_KEYSTORE_DEBUG_PATH="$RUNNER_TEMP/debug.keystore"
+          export GODOT_ANDROID_KEYSTORE_DEBUG_PATH="$HOME/.pocketstudio-keystore/debug.keystore"
           echo "ANDROID_HOME=$ANDROID_HOME"
           ls "$ANDROID_HOME/build-tools" || true
           mkdir -p build

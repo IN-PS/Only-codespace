@@ -148,7 +148,11 @@ class ColorV:
 		return "rgb(%s, %s, %s)" % [PSLua.num_str(c.r), PSLua.num_str(c.g), PSLua.num_str(c.b)]
 
 	func lua_eq(other: Variant) -> bool:
-		return other is ColorV and (other as ColorV).c.is_equal_approx(c)
+		# Cores são comparadas com a precisão de 8 bits por canal.
+		if not (other is ColorV):
+			return false
+		var o: Color = (other as ColorV).c
+		return absf(o.r - c.r) < 0.003 and absf(o.g - c.g) < 0.003 and absf(o.b - c.b) < 0.003 and absf(o.a - c.a) < 0.003
 
 	func lua_get(_interp: Object, key: Variant) -> Variant:
 		match key:

@@ -46,7 +46,7 @@ func test_obby_is_playable() -> void:
 	eq(s.runtime._shared.get_v("moedas"), 1.0, "moeda coletada conta ponto")
 	check(s._hud_text.text.contains("Moedas: 1"), "placar no topo da tela: '%s'" % s._hud_text.text)
 	# Cair aciona a zona de queda e volta ao início.
-	s.player.global_position = Vector3(0, -7.5, -20)
+	s.player.global_position = Vector3(0, -11.5, -18)
 	await physics_frames(4)
 	await frames(2)
 	check(s.player.global_position.y > -2.0, "zona de queda devolve ao início")
